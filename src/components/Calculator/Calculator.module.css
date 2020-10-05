@@ -1,0 +1,16 @@
+.calc {
+  border: 3px solid #000000;
+  border-radius: 4px;
+  margin: 0 auto;
+  max-width: 300px;
+  padding: 16px;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.buttons > * {
+  flex: 1 25%;
+}
