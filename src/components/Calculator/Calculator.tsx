@@ -1,26 +1,87 @@
 import React, { useState } from 'react';
+import { evaluate } from 'mathjs'
 
 import Button from '../Button/Button';
-import Screen from './Screen/Screen';
+import buttons from '../Button/buttons'
 
 import styles from './Calculator.module.css';
 
+
 const Calculator = () => {
-  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const onChange = ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) : void => {
+    // https://github.com/ant-design/ant-design/issues/6879#issuecomment-316005991
+    setInputValue(inputValue + currentTarget.innerText);
+  };
+
+  const onCalculate = () => {
+    setInputValue(evaluate(inputValue));
+  };
+  
+  const onClearInputeValue = () => {
+    setInputValue('');
+  };
+
+  const onDeleteLastSymbol = () => {
+    setInputValue(inputValue.slice(0, inputValue.length - 1));
+  };
 
   return (
     <div className={styles.calc}>
-      <Screen />
+      <div className={styles.screen}>
+        <input
+          className={styles.input}
+          type="text"
+          readOnly
+          value={inputValue}
+        />
+      </div>
       <div className={styles.buttons}>
-        <Button onClick={(event) => console.log(event.target)} value={7} />
-        <Button onClick={(event) => console.log(event.target)} value={8} />
-        <Button onClick={(event) => console.log(event.target)} value={9} />
-        <Button onClick={(event) => console.log(event.target)} value={4} />
-        <Button onClick={(event) => console.log(event.target)} value={5} />
-        <Button onClick={(event) => console.log(event.target)} value={6} />
-        <Button onClick={(event) => console.log(event.target)} value={1} />
-        <Button onClick={(event) => console.log(event.target)} value={2} />
-        <Button onClick={(event) => console.log(event.target)} value={3} />
+        <div className={styles.numbers}>
+          <Button
+            onClick={onClearInputeValue}
+            value="AC"
+          />
+          <Button
+            onClick={onDeleteLastSymbol}
+            value="Del"
+          />
+          <Button
+            onClick={onChange}
+            value="%"
+          />
+          {buttons.map((value: number) => (
+            <Button
+              key={value}
+              onClick={onChange}
+              value={value}
+            />
+          ))}
+        </div>
+        <div className={styles.operators}>
+          <Button
+            onClick={onChange}
+            value="+"
+          />
+          <Button
+            onClick={onChange}
+            value="-"
+          />
+          <Button
+            onClick={onChange}
+            value="*"
+          />
+          <Button
+            onClick={onChange}
+            value="/"
+          />
+          <Button
+            onClick={onCalculate}
+            type="calculate"
+            value="="
+          />
+        </div>
       </div>
     </div>
   );

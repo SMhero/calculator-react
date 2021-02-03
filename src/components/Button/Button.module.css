@@ -7,9 +7,14 @@
   display: block;
   font-size: 22px;
   height: 40px;
-  margin: 10px;
+  margin-bottom: 10px;
   outline: none;
   padding: 0;
   text-align: center;
   width: 100%;
+}
+
+.button[data-type='calculate'] {
+  background: #f7e11d;
+  color: #000000;
 }
